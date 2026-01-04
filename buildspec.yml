@@ -30,7 +30,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo "Writing image definitions file for ECS..."
       # Ensure 'rantbuddy-container' matches the name in your ECS Task Definition
-      - printf '[{"name":"rantbuddy-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"rantbuddy-backend-container1","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
