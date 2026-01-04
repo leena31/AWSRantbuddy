@@ -20,6 +20,7 @@ jobs:
           # REPLACE the URL below with your actual CodeCommit HTTPS URL
           CC_URL: https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/RantbuddyRepo
         run: |
-          # This builds a URL that includes your login info automatically
-          REMOTE_URL=$(echo $CC_URL | sed "s/https:\/\//https://$CC_USER:$CC_PASS@/")
-          git push --mirror "$REMOTE_URL"
+          # Configure git to use the credentials for this specific URL
+          git config --global "credential.${CC_URL}.username" "${CC_USER}"
+          git config --global "credential.${CC_URL}.helper" '!f() { echo password=${CC_PASS}; }; f'
+          git push --mirror "${CC_URL}"
