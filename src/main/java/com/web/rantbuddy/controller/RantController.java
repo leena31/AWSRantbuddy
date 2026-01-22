@@ -31,7 +31,6 @@ public class RantController {
 
         DecodedJWT jwt = JWT.decode(token);
         String username = jwt.getClaim("cognito:username").asString();
-
         Rant rant = rantService.createRant(username, rantRequest.getRantText());
         return ResponseEntity.ok(Map.of(
                 "rantId", rant.getRantId(),
