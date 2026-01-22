@@ -12,21 +12,25 @@ import lombok.*;
 @Setter
 @DynamoDBTable(tableName = "RantDetails")
 public class RantDetails {
+
         @DynamoDBHashKey(attributeName = "rantId")
         private String rantId;
 
         @DynamoDBAttribute(attributeName = "username")
-        private String username; // user who created the rant
+        private String username;
 
-        @DynamoDBAttribute(attributeName = "title")
-        private String title;
+        @DynamoDBAttribute(attributeName = "timestamp")
+        private String timestamp;
 
-        @DynamoDBAttribute(attributeName = "description")
-        private String description;
+        @DynamoDBAttribute(attributeName = "status")
+        private String status;
 
-        @DynamoDBAttribute(attributeName = "createdAt")
-        private String createdAt;
+        @DynamoDBAttribute(attributeName = "sentiment")
+        private String sentiment;
 
+        @DynamoDBAttribute(attributeName = "emotion")
+        private String emotion;
 
-
+        @DynamoDBAttribute(attributeName = "analysisResult")
+        private String analysisResult;
 }
