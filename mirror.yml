@@ -1,0 +1,26 @@
+name: Mirror to CodeCommit
+
+on:
+  push:
+    branches: [ main ] # This mirrors every push to your main branch
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Gets the whole history, not just the latest file
+
+      - name: Push to CodeCommit
+        env:
+          CC_USER: ${{ secrets.CC_USERNAME }}
+          CC_PASS: ${{ secrets.CC_PASSWORD }}
+          # REPLACE the URL below with your actual CodeCommit HTTPS URL
+          CC_URL: https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/RantbuddyRepo
+        run: |
+          # Configure git to use the credentials for this specific URL
+          git config --global "credential.${CC_URL}.username" "${CC_USER}"
+          git config --global "credential.${CC_URL}.helper" '!f() { echo password=${CC_PASS}; }; f'
+          git push --mirror "${CC_URL}"
