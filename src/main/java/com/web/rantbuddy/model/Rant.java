@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Rant {
     private String rantId;
-    private String userId;
-    private String rantText;
+    private String username;
     private String status; // PROCESSING / COMPLETED
 }
