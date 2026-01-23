@@ -2,6 +2,7 @@ package com.web.rantbuddy.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.*;
 
@@ -16,7 +17,7 @@ public class RantDetails {
         @DynamoDBHashKey(attributeName = "rantId")
         private String rantId;
 
-        @DynamoDBAttribute(attributeName = "username")
+        @DynamoDBRangeKey(attributeName = "username")
         private String username;
 
         @DynamoDBAttribute(attributeName = "timestamp")
