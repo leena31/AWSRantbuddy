@@ -3,6 +3,7 @@ package com.web.rantbuddy.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.web.rantbuddy.model.Rant;
+import com.web.rantbuddy.model.RantDetails;
 import com.web.rantbuddy.model.RantRequest;
 import com.web.rantbuddy.service.RantService;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +23,21 @@ import java.util.Map;
 public class RantController {
     @Autowired
     RantService rantService;
-
-    @PostMapping(value = "/createRant")
-    public ResponseEntity<?> createRant(@RequestBody RantRequest rantRequest,
-                                        @RequestHeader("Authorization") String authorization
+    @PostMapping("/createRant")
+    public ResponseEntity<?> createRant(
+            @RequestBody RantRequest rantRequest,
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader(value = "x-amzn-oidc-data", required = false) String oidcData
     ) {
         String token = authorization.replace("Bearer ", "");
 
         DecodedJWT jwt = JWT.decode(token);
         String username = jwt.getClaim("cognito:username").asString();
-        Rant rant = rantService.createRant(username, rantRequest.getRantText());
-        return ResponseEntity.ok(Map.of(
+
+        RantDetails rant = rantService.createRant(username, rantRequest.getRantText());
+
+        return ResponseEntity.accepted().body(Map.of(
                 "rantId", rant.getRantId(),
-                "status", rant.getStatus(),
                 "message", "Your rant is being analyzed"
         ));
     }
