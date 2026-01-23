@@ -21,11 +21,12 @@ public class RantServiceImpl implements RantService {
 
     private final Map<String, Rant> rants = new HashMap<>();
     @Override
-    public Rant createRant(String username, String rantText) {
+    public RantDetails createRant(String username, String rantText) {
         String rantId = UUID.randomUUID().toString();
         Rant rant = new Rant();
         rant.setRantId(rantId);
-        rant.setStatus("PENDING");
+        rant.setUsername(username);
+
         RantDetails rantDetails = new RantDetails();
         rantDetails.setRantId(rantId);
         rantDetails.setUsername(username);
@@ -33,9 +34,9 @@ public class RantServiceImpl implements RantService {
         rantDetails.setTimestamp(LocalDateTime.now().toString());
         rantDao.saveRantDetails(rantDetails);
         eventPublisher.publishRantCreatedEvent(rantId);
+//        rant.setStatus("PENDING");
 
-
-        return rant;
+        return rantDetails;
     }
 
     @Override

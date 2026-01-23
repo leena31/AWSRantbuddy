@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class Rant {
     private String rantId;
     private String username;
-    private String status; // PROCESSING / COMPLETED
+
 }
