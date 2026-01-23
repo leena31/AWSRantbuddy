@@ -11,11 +11,15 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @RestController
 @RequestMapping("/rant")
@@ -23,16 +27,14 @@ import java.util.Map;
 public class RantController {
     @Autowired
     RantService rantService;
+
+
     @PostMapping("/createRant")
     public ResponseEntity<?> createRant(
             @RequestBody RantRequest rantRequest,
-            @RequestHeader("Authorization") String authorization,
-            @RequestHeader(value = "x-amzn-oidc-data", required = false) String oidcData
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        String token = authorization.replace("Bearer ", "");
-
-        DecodedJWT jwt = JWT.decode(token);
-        String username = jwt.getClaim("cognito:username").asString();
+        String username = jwt.getClaimAsString("username");
 
         RantDetails rant = rantService.createRant(username, rantRequest.getRantText());
 
@@ -41,6 +43,7 @@ public class RantController {
                 "message", "Your rant is being analyzed"
         ));
     }
+
 
     @GetMapping("/getRant/{rantId}")
     public ResponseEntity<?> getRant(@PathVariable String rantId,@RequestHeader("x-amzn-oidc-data") String oidcData) {
