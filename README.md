@@ -5,6 +5,8 @@ The system allows users to submit text (“rants”), processes them asynchronou
 
 ## Architecture
 Client → Spring Boot API → DynamoDB → EventBridge → Lambda → AWS Bedrock → Analysis Stored Back in DynamoDB → Client Retrieves Result
+<img width="2051" height="1409" alt="AWS Infrastructure drawio (4)" src="https://github.com/user-attachments/assets/81419063-d2fd-4150-a0e6-49d0c6335fc5" />
+
 
 ## Tech Stack
 - Java + Spring Boot
